@@ -69,7 +69,7 @@ defmodule Mssqlex.Protocol do
     conn_str =
       Enum.reduce(conn_opts, "", fn {key, value}, acc ->
         acc <> "#{key}=#{value};"
-      end)
+      end) <> Keyword.get(opts, :odbc_opts, "")
 
     {:ok, pid} = ODBC.start_link(conn_str, opts)
     {:ok, _pid} = Mssqlex.TypeParser.Agent.start_link(pid)
